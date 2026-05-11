@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pronto Invernada Segurança</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+  <div class="bg-black text-white p-4 shadow-lg">
+    <h1 class="text-2xl font-bold">Pronto Invernada Segurança</h1>
+    <p class="text-sm text-gray-300">Controle Diário de Efetivo</p>
+  </div>
+
+  <div class="max-w-4xl mx-auto p-4">
+
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+      <h2 class="text-xl font-bold mb-4">Registrar Efetivo</h2>
+
+      <form id="formEfetivo" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <div>
+          <label class="font-semibold">Data</label>
+          <input type="date" id="data" class="w-full border rounded-lg p-2" required>
+        </div>
+
+        <div>
+          <label class="font-semibold">Hora</label>
+          <select id="hora" class="w-full border rounded-lg p-2" required>
+            <option>06:00</option>
+            <option>07:00</option>
+            <option>11:00</option>
+            <option>15:00</option>
+            <option>18:00</option>
+            <option>19:00</option>
+            <option>22:00</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="font-semibold">Supervisor</label>
+          <input type="text" id="supervisor" class="w-full border rounded-lg p-2" required>
+        </div>
+
+        <div>
+          <label class="font-semibold">Posto</label>
+          <select id="posto" class="w-full border rounded-lg p-2" required>
+            <option>Invernada Sede</option>
+            <option>Condomínio Cícero Dias</option>
+            <option>Condomínio Inglês de Souza</option>
+            <option>Condomínio Itauna</option>
+            <option>Residência Sara Vilela</option>
+            <option>Residencial Carlos Rocha Farias</option>
+            <option>Vista Capital</option>
+            <option>Embrapa Solos</option>
+            <option>Edifício Ana Carolina</option>
+            <option>Residencial Capuri</option>
+            <option>Residencial Tupy</option>
+            <option>Residencial José Pancetti</option>
+            <option>Residencial João Dantas</option>
+            <option>Tids Papelaria</option>
+            <option>Golgi Seropédica</option>
+            <option>B2W Seropédica</option>
+            <option>Lasa Sede</option>
+            <option>Condomínio Boa Esperança</option>
+            <option>Condomínio Locanda</option>
+            <option>Condomínio Quiaca</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="font-semibold">Efetivo</label>
+          <input type="number" id="efetivo" class="w-full border rounded-lg p-2" required>
+        </div>
+
+        <div>
+          <label class="font-semibold">Faltas</label>
+          <select id="faltas" class="w-full border rounded-lg p-2">
+            <option>NÃO</option>
+            <option>SIM</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="font-semibold">Rendição</label>
+          <select id="rendicao" class="w-full border rounded-lg p-2">
+            <option>SIM</option>
+            <option>NÃO</option>
+          </select>
+        </div>
+
+        <div class="md:col-span-2">
+          <label class="font-semibold">Observações</label>
+          <textarea id="obs" class="w-full border rounded-lg p-2"></textarea>
+        </div>
+
+        <div class="md:col-span-2">
+          <button type="submit" class="bg-black text-white px-6 py-3 rounded-xl w-full hover:bg-gray-800 transition">
+            Salvar Registro
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+      <h2 class="text-xl font-bold mb-4">Dashboard Operacional</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+        <div class="bg-gray-100 p-4 rounded-xl text-center">
+          <p class="text-gray-500">Registros</p>
+          <h3 id="totalRegistros" class="text-3xl font-bold">0</h3>
+        </div>
+
+        <div class="bg-gray-100 p-4 rounded-xl text-center">
+          <p class="text-gray-500">Efetivo Total</p>
+          <h3 id="totalEfetivo" class="text-3xl font-bold">0</h3>
+        </div>
+
+        <div class="bg-gray-100 p-4 rounded-xl text-center">
+          <p class="text-gray-500">Faltas</p>
+          <h3 id="totalFaltas" class="text-3xl font-bold">0</h3>
+        </div>
+
+        <div class="bg-gray-100 p-4 rounded-xl text-center">
+          <p class="text-gray-500">Postos</p>
+          <h3 class="text-3xl font-bold">20</h3>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg p-6">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold">Histórico</h2>
+        <button onclick="exportarCSV()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+          Exportar CSV
+        </button>
+      </div>
+
+      <div class="overflow-auto">
+        <table class="w-full border-collapse">
+          <thead>
+            <tr class="bg-black text-white">
+              <th class="p-2">Data</th>
+              <th class="p-2">Hora</th>
+              <th class="p-2">Supervisor</th>
+              <th class="p-2">Posto</th>
+              <th class="p-2">Efetivo</th>
+              <th class="p-2">Faltas</th>
+              <th class="p-2">Rendição</th>
+              <th class="p-2">Obs</th>
+            </tr>
+          </thead>
+          <tbody id="tabelaRegistros"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+
+    const form = document.getElementById('formEfetivo');
+    const tabela = document.getElementById('tabelaRegistros');
+
+    let registros = JSON.parse(localStorage.getItem('efetivoRegistros')) || [];
+
+    atualizarTabela();
+    atualizarDashboard();
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+
+      const registro = {
+        data: document.getElementById('data').value,
+        hora: document.getElementById('hora').value,
+        supervisor: document.getElementById('supervisor').value,
+        posto: document.getElementById('posto').value,
+        efetivo: document.getElementById('efetivo').value,
+        faltas: document.getElementById('faltas').value,
+        rendicao: document.getElementById('rendicao').value,
+        obs: document.getElementById('obs').value
+      };
+
+      registros.push(registro);
+
+      localStorage.setItem('efetivoRegistros', JSON.stringify(registros));
+
+      atualizarTabela();
+      atualizarDashboard();
+
+      enviarWhatsApp(registro);
+
+      form.reset();
+
+      alert('Registro salvo com sucesso!');
+    });
+
+    function atualizarTabela(){
+      tabela.innerHTML = '';
+
+      registros.reverse().forEach(r => {
+        tabela.innerHTML += `
+          <tr class="border-b hover:bg-gray-50">
+            <td class="p-2">${r.data}</td>
+            <td class="p-2">${r.hora}</td>
+            <td class="p-2">${r.supervisor}</td>
+            <td class="p-2">${r.posto}</td>
+            <td class="p-2">${r.efetivo}</td>
+            <td class="p-2">${r.faltas}</td>
+            <td class="p-2">${r.rendicao}</td>
+            <td class="p-2">${r.obs}</td>
+          </tr>
+        `;
+      });
+    }
+
+    function atualizarDashboard(){
+
+      document.getElementById('totalRegistros').innerText = registros.length;
+
+      let efetivo = 0;
+      let faltas = 0;
+
+      registros.forEach(r => {
+        efetivo += parseInt(r.efetivo || 0);
+
+        if(r.faltas === 'SIM'){
+          faltas++;
+        }
+      });
+
+      document.getElementById('totalEfetivo').innerText = efetivo;
+      document.getElementById('totalFaltas').innerText = faltas;
+    }
+
+    function exportarCSV(){
+
+      let csv = 'Data,Hora,Supervisor,Posto,Efetivo,Faltas,Rendicao,Observacao\n';
+
+      registros.forEach(r => {
+        csv += `${r.data},${r.hora},${r.supervisor},${r.posto},${r.efetivo},${r.faltas},${r.rendicao},${r.obs}\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+
+      a.href = url;
+      a.download = 'efetivo_operacional.csv';
+      a.click();
+    }
+
+    function enviarWhatsApp(registro){
+
+      const mensagem =
+`📋 CONTROLE DE EFETIVO
+
+📅 Data: ${registro.data}
+⏰ Hora: ${registro.hora}
+
+👮 Supervisor: ${registro.supervisor}
+📍 Posto: ${registro.posto}
+👥 Efetivo: ${registro.efetivo}
+❌ Faltas: ${registro.faltas}
+🔄 Rendição: ${registro.rendicao}
+📝 Obs: ${registro.obs}`;
+
+      console.log(mensagem);
+
+      // INTEGRAÇÃO API WHATSAPP
+      // Adicione aqui sua API Evolution, Z-API ou UltraMsg
+    }
+
+  </script>
+
+</body>
+</html>
